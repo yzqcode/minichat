@@ -8,7 +8,7 @@ QT       += core
 
 QT       -= gui
 
-TARGET = untitled1
+TARGET = client
 CONFIG   += console
 CONFIG   -= app_bundle
 
@@ -16,5 +16,4 @@ TEMPLATE = app
 
 
 SOURCES += \
-    ET.cpp \
-    test.cpp
+    client.cpp 

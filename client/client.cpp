@@ -11,32 +11,24 @@
 #include <fcntl.h>
 #include <iostream>
 using namespace std;
-#define ERR_EXIT(m) \
-        do \
-        { \
-                perror(m); \
-                exit(EXIT_FAILURE); \
-        } while(0)
-
 int main(void)
 {
     int sock;
     if ((sock = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
-        ERR_EXIT("socket");
+        perror("socket");
 
     struct sockaddr_in servaddr;
     memset(&servaddr, 0, sizeof(servaddr));
     servaddr.sin_family = AF_INET;
-    servaddr.sin_port = htons(80);
+    servaddr.sin_port = htons(12138);
     servaddr.sin_addr.s_addr = inet_addr("127.0.0.1");
 
     if (connect(sock, (struct sockaddr*)&servaddr, sizeof(servaddr)) < 0)
-        ERR_EXIT("connect");
-
+        perror("connect");
     struct sockaddr_in localaddr;
     socklen_t addrlen = sizeof(localaddr);
     if (getsockname(sock, (struct sockaddr*)&localaddr, &addrlen) < 0)
-    ERR_EXIT("getsockname");
+        perror("getsockname");
 
     std::cout<<"ip="<<inet_ntoa(localaddr.sin_addr)<<
         " port="<<ntohs(localaddr.sin_port)<<std::endl;
@@ -44,11 +36,12 @@ int main(void)
     cout<<"please input  your name"<<endl;
     cin>>name;
     write(sock,name,sizeof(name));
+    cout<<"If you want to chat with someone, please enter his name and add \"-\""<<endl;
     fcntl(sock,F_SETFL,O_NONBLOCK);
     int flags = fcntl(STDIN_FILENO, F_GETFL, 0);
-        fcntl(STDIN_FILENO, F_SETFL, flags | O_NONBLOCK );
+    fcntl(STDIN_FILENO, F_SETFL, flags | O_NONBLOCK );
     int pid = fork();
-    if(pid!=0)//父进程 read;
+    if(pid!=0)//父进程;
     {
         char buf[1024]={0};
         int n=0;
@@ -84,7 +77,7 @@ int main(void)
                 {
                     break;
                 }
-                sleep(1);
+                usleep(10000);
             }
              if(counter==-1)
                 {
@@ -96,11 +89,9 @@ int main(void)
                     {
                         perror("read failed!");
                     }
-                }
-            //cout<<"receive buf:  ";
-            cout<<strbuf<<endl;
-            //usleep(100000);
-            sleep(1);
+                }            
+            cout<<strbuf<<endl;           
+            usleep(10000);
 
 
 
