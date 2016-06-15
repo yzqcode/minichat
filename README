@@ -1,0 +1,17 @@
+多人在线聊天；
+client端需要先输入用户名；
+想要和某人聊天，先输入他的名字，然后加“-”，然后是聊天内容；
+内部两个map（user_fd_map,fd_msg_map）；
+user_fd_map存储用户名和socketfd的映射；
+fd_msg_map存储socketfd-message的映射，message是此socketfd待接受信息；
+epoll et模式实现并发；
+具体实现：
+	1 新加入的fd监听EPOLLIN事件；
+	2 处理EPOLLIN：
+		循环读取，防止缓冲区未被读完，对接收到的strbuf进行信息摘取（strbuf格式：“待接收信息用户”+“-”+“信息”+“-”+“发送信息用户”）;
+		在user_fd_map中查找待接收信息用户对应的fd,把strbuf内容格式修改为“发送信息用户”+“--say you->”+"信息"，把fd和strbuf存入fd_msg_map;
+		把fd修改为监听写事件；
+	3 处理EPOLLOUT:
+		在fd_msg_map中查找userfd对应的消息，把消息write to userfd,修改userfd监听读事件；
+	
+
