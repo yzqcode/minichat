@@ -1,0 +1,35 @@
+# depslib dependency file v1.0
+1465562962 source:/root/Desktop/minichat/main.cpp
+	"stdafx.h"
+	"CepollServer.h"
+	"Cuser.h"
+
+1465561195 /root/Desktop/minichat/stdafx.h
+	<iostream>
+	<list>
+	<map>
+	<sys/types.h>
+	<sys/socket.h>
+	<netinet/in.h>
+	<arpa/inet.h>
+	<sys/epoll.h>
+	<fcntl.h>
+	<errno.h>
+	<unistd.h>
+	<cstdio>
+	<cstdlib>
+	<cstring>
+	<memory>
+
+1465562837 source:/root/Desktop/minichat/CepollServer.cpp
+	"CepollServer.h"
+
+1465605402 /root/Desktop/minichat/CepollServer.h
+	"stdafx.h"
+
+1465561883 source:/root/Desktop/minichat/Cuser.cpp
+	"Cuser.h"
+
+1465561906 /root/Desktop/minichat/Cuser.h
+	"stdafx.h"
+
